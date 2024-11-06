@@ -1,8 +1,9 @@
-in vec2 TexCoord;
+#version 330 core
 
+out vec4 FragColor;
 uniform sampler2D texture;
 
 void main()
 {
-    vec4 reverseTexture2 = texture(texture, TexCoord);
+    FragColor = vec4(1.0f);
 }

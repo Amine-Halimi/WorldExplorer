@@ -67,13 +67,11 @@ public:
         const float cameraSpeed = movementSpeed * deltaTime;
         if (direction == FORWARD)
         {
-            Position.z += cameraSpeed * Front.z;
-            Position.x += cameraSpeed * Front.x;
+            Position += cameraSpeed * Front;
         }
         if (direction == BACKWARD)
         {
-            Position.z -= cameraSpeed * Front.z;
-            Position.x -= cameraSpeed * Front.x;
+            Position -= cameraSpeed * Front;
         }
         if (direction == LEFT)
         {

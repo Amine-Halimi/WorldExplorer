@@ -24,6 +24,9 @@
     <ClCompile Include="TextureReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\Libraries\glad\src\glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -36,5 +39,7 @@
   <ItemGroup>
     <None Include="vertexShader.glsl" />
     <None Include="fragmentShader.glsl" />
+    <None Include="fragmentLightingShader.glsl" />
+    <None Include="vertexLightingShader.glsl" />
   </ItemGroup>
 </Project>
