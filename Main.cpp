@@ -241,13 +241,15 @@ int main()
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    unsigned int containerTextureID, containerSpecularMapID;
+    unsigned int containerTextureID, containerSpecularMapID, containerEmissionMapID;
     containerTextureID = loadTexture("textures\\container2.png");
     containerSpecularMapID = loadTexture("textures\\container2_specular.png");
+    containerEmissionMapID = loadTexture("textures\\matrix.jpg");
 
     lightingShader.use();
     lightingShader.setInt("material.diffuse", 0);
     lightingShader.setInt("material.specular", 1);
+    lightingShader.setInt("material.emission", 2);
 
     //Main application loop
     while (!glfwWindowShouldClose(window)) {
@@ -295,8 +297,7 @@ int main()
         lightingShader.setMat4("model", model);
 
         lightingShader.setVec3("viewPos", camera.Position);
-        lightingShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
-        lightingShader.setFloat("material.shininess", 32.0f);
+        lightingShader.setFloat("material.shininess", 64.0f);
 
         glm::vec3 diffuseLight = glm::vec3(0.5f);
         glm::vec3 ambientLight = glm::vec3(0.2f);
@@ -308,8 +309,12 @@ int main()
         
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, containerTextureID);
+
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, containerSpecularMapID);
+
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, containerEmissionMapID);
 
         glBindVertexArray(VAOs[0]);
         glDrawArrays(GL_TRIANGLES, 0, 36);
