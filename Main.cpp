@@ -292,7 +292,7 @@ int main()
         glm::mat4 view = camera.GetViewMatrix();
         //GLM Perspective view matrix transformation
         glm::mat4 projection = glm::mat4(1.0f);
-        projection = glm::perspective(camera.zoom, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+        projection = glm::perspective(glm::radians(camera.zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 
         /*
         float changeInTime = glfwGetTime() * 20.0f;
@@ -319,14 +319,15 @@ int main()
         lightingShader.setVec3("light.position", camera.Position);
         lightingShader.setVec3("light.direction", camera.Front);
         lightingShader.setFloat("light.cutOff", glm::cos(glm::radians(12.5f)));
+        lightingShader.setFloat("light.outerCutOff", glm::cos(glm::radians(17.5f)));
 
         lightingShader.setVec3("light.ambient", ambientLight);
         lightingShader.setVec3("light.diffuse", diffuseLight);
         lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
         
         lightingShader.setFloat("light.constant", 1.0f);
-        lightingShader.setFloat("light.linear", 0.09);
-        lightingShader.setFloat("light.quadratic", 0.032);
+        lightingShader.setFloat("light.linear", 0.045);
+        lightingShader.setFloat("light.quadratic", 0.0075);
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, containerTextureID);
@@ -436,7 +437,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-    camera.ProcessMouseScroll(yoffset);
+    camera.ProcessMouseScroll(static_cast<float>(yoffset));
 }
 
 unsigned int loadTexture(char const* path)
