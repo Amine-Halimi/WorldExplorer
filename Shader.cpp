@@ -1,12 +1,12 @@
 #include "Shader.h"
-
 #include <glad/glad.h>
-
 #include <string>
 #include <fstream>
 #include <sstream>
 #include <iostream>
-
+/*
+Implementation from LearnOpenGL website: https://github.com/JoeyDeVries/LearnOpenGL
+*/
 Shader::Shader(const char* vertexPath, const char* fragmentPath)
 {
 	//Seeking source code from filepath

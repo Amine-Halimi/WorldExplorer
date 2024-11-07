@@ -8,7 +8,9 @@
 #include <sstream>
 #include <iostream>
 #include "glm.hpp"
-
+/*
+Implementation from LearnOpenGL website:https://github.com/JoeyDeVries/LearnOpenGL
+*/
 class Shader
 {
 public:

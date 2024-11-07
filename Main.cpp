@@ -1,4 +1,6 @@
-// TestingOpenGL.cpp : This file contains the 'main' function. Program execution begins and ends there.
+/*
+This is a 3D renderer I have written learning the guide of LearnOpenGL
+*/
 
 #include <glad/glad.h>
 #include <glfw3.h>
@@ -313,11 +315,19 @@ int main()
         glm::vec3 diffuseLight = glm::vec3(0.5f);
         glm::vec3 ambientLight = glm::vec3(0.2f);
 
-        lightingShader.setVec3("light.direction", -0.2f, -1.0f, -0.3f);
+        //lightingShader.setVec3("light.direction", -0.2f, -1.0f, -0.3f);
+        lightingShader.setVec3("light.position", camera.Position);
+        lightingShader.setVec3("light.direction", camera.Front);
+        lightingShader.setFloat("light.cutOff", glm::cos(glm::radians(12.5f)));
+
         lightingShader.setVec3("light.ambient", ambientLight);
         lightingShader.setVec3("light.diffuse", diffuseLight);
         lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
         
+        lightingShader.setFloat("light.constant", 1.0f);
+        lightingShader.setFloat("light.linear", 0.09);
+        lightingShader.setFloat("light.quadratic", 0.032);
+
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, containerTextureID);
 

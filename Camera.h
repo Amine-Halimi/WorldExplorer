@@ -4,14 +4,15 @@
 #include <glad/glad.h>
 #include "glm.hpp"
 #include "gtc/matrix_transform.hpp"
-
 enum Camera_Movement {
     FORWARD,
     BACKWARD,
     LEFT,
     RIGHT
 };
-
+/*
+Implementation from LearnOpenGL website:https://github.com/JoeyDeVries/LearnOpenGL
+*/
 // Default camera values
 const float YAW = -90.0f;
 const float PITCH = 0.0f;
