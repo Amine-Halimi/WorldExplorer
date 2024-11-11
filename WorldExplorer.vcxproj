@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Libraries\glfw3\includes;C:\Libraries\glad\include;C:\Libraries\glm-1.0.1-light\glm;C:\Libraries\stb\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Libraries\glfw3\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Libraries\glfw3\includes;C:\Libraries\glad\include;C:\Libraries\glm-1.0.1-light\glm;C:\Libraries\stb\include;C:\Libraries\assimp\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Libraries\glfw3\lib;C:\Libraries\assimp\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -112,7 +112,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -134,11 +134,15 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\Libraries\glad\src\glad.c" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="TextureReader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="Shader.h" />
   </ItemGroup>
   <ItemGroup>

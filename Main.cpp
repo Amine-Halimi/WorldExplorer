@@ -8,6 +8,8 @@ This is a 3D renderer I have written learning the guide of LearnOpenGL
 #include "iostream"
 #include "Camera.h"
 #include "stb_image.h"
+#include "Model.h"
+
 
 #include "glm.hpp"
 #include "gtc/matrix_transform.hpp"
@@ -20,8 +22,8 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 unsigned int loadTexture(char const* path);
 //Window dimensions
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+const unsigned int SCR_WIDTH = 1600;
+const unsigned int SCR_HEIGHT = 900;
 
 
 bool opacityChanged = false;
@@ -58,7 +60,7 @@ int main()
 
 
     //Creating a window object
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearningOpenGL", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "WorldExplorer", NULL, NULL);
 
     if (window == NULL) {
         std::cout << "FAILED TO CREATE GLFW WINDOW" << std::endl;
@@ -93,10 +95,19 @@ int main()
     //Enable Hide and capture cursor
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-    Shader lightingShader("vertexLightingShader.glsl", "fragmentLightingShader.glsl");
+    //Shader lightingShader("vertexLightingShader.glsl", "fragmentLightingShader.glsl");
     camera = Camera();
 
-    Shader lightCubeShader("vertexShader.glsl", "fragmentShader.glsl");
+    //Shader lightCubeShader("vertexShader.glsl", "fragmentShader.glsl");
+    std::string path = "assets\\backpack.obj";
+
+    std::cout << "Creating the shader..." << std::endl;
+    Shader ourShader("vertexLightingShader.glsl", "fragmentShader.glsl");
+    std::cout << "Done creating the shader!" << std::endl;
+
+    std::cout << "Loading the model..." << std::endl;
+    Model model(path.c_str());
+    std::cout << "Done loading the model..." << std::endl;
     /*
     float vertices[] = {
         // Positions           Texture
@@ -168,7 +179,7 @@ int main()
     glGenBuffers(1, &EBO);
     */
 
-
+    /*
     float verticesLightCube[] = {
     //Positions              Normal             Textures
     -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
@@ -213,6 +224,12 @@ int main()
     -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
     -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
     };
+       glm::vec3 pointLightPositions[] = {
+       glm::vec3(0.7f,  0.2f,  2.0f),
+       glm::vec3(2.3f, -3.3f, -4.0f),
+       glm::vec3(-4.0f,  2.0f, -12.0f),
+       glm::vec3(0.0f,  0.0f, -3.0f)
+    };
 
     glm::vec3 cubePositions[] = {
         glm::vec3(0.0f,  0.0f,  0.0f),
@@ -227,12 +244,7 @@ int main()
         glm::vec3(-1.3f,  1.0f, -1.5f)
     };
 
-    glm::vec3 pointLightPositions[] = {
-       glm::vec3(0.7f,  0.2f,  2.0f),
-       glm::vec3(2.3f, -3.3f, -4.0f),
-       glm::vec3(-4.0f,  2.0f, -12.0f),
-       glm::vec3(0.0f,  0.0f, -3.0f)
-    };
+
     //Buffer for OpenGL: Creates the buffer, attaches it to an array buffer then draw it.
     unsigned int VBO;
     glGenBuffers(1, &VBO);
@@ -272,34 +284,32 @@ int main()
     lightingShader.setInt("material.diffuse", 0);
     lightingShader.setInt("material.specular", 1);
     //lightingShader.setInt("material.emission", 2);
-
+    */
     //Main application loop
+    std::cout << "Starting application..." << std::endl;
     while (!glfwWindowShouldClose(window)) {
         float currentTime = static_cast<float>(glfwGetTime());
         deltaTime = currentTime - lastFrame;
         lastFrame = currentTime;
 
         processInput(window);
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+        glClearColor(0.6f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        /*
         ourShader.use();
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, textures[0]);
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, textures[1]);
-
-        if (opacityChanged)
-        {
-            ourShader.setFloat("opacity", opacity);
-            opacityChanged = false;
-        }
-        */
         glm::mat4 view = camera.GetViewMatrix();
         //GLM Perspective view matrix transformation
         glm::mat4 projection = glm::mat4(1.0f);
         projection = glm::perspective(glm::radians(camera.zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+        ourShader.setMat4("projection", projection);
+        ourShader.setMat4("view", view);
+
+        // render the loaded model
+        glm::mat4 spaceModel = glm::mat4(1.0f);
+        spaceModel = glm::translate(spaceModel, glm::vec3(0.0f, 0.0f, 0.0f)); 
+        spaceModel = glm::scale(spaceModel, glm::vec3(1.0f, 1.0f, 1.0f));	
+        ourShader.setMat4("model", spaceModel);
+        model.Draw(ourShader);
 
         /*
         float changeInTime = glfwGetTime() * 20.0f;
@@ -312,6 +322,8 @@ int main()
         lightColor.y = sin(glfwGetTime() * 0.7f);
         lightColor.z = sin(glfwGetTime() * 1.3f);
         */
+        
+        /*
         lightingShader.use();
         lightingShader.setMat4("view", view);
         lightingShader.setMat4("projection", projection);
@@ -325,8 +337,8 @@ int main()
         //Directional light
         lightingShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
         lightingShader.setVec3("dirLight.ambient", 0.05f, 0.05f, 0.05f);
-        lightingShader.setVec3("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
-        lightingShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
+        lightingShader.setVec3("dirLight.diffuse", 0.1f, 0.1f, 0.1f);
+        lightingShader.setVec3("dirLight.specular", 0.1f, 0.1f, 0.1f);
 
         //Pointlight lights
         for (int i = 0; i < 4; i++)
@@ -334,7 +346,7 @@ int main()
             std::string name = "pointlights[" + std::to_string(i) + "].";
             lightingShader.setVec3(name + "position", pointLightPositions[i]);
             lightingShader.setVec3(name + "ambient", 0.05f, 0.05f, 0.05f);
-            lightingShader.setVec3(name + "diffuse", 0.8f, 0.8f, 0.8f);
+            lightingShader.setVec3(name + "diffuse", 0.8f, 0.5f, 0.1f);
             lightingShader.setVec3(name + "specular", 1.0f, 1.0f, 1.0f);
 
             lightingShader.setFloat(name + "constant", 1.0f);
@@ -363,7 +375,7 @@ int main()
         /*
         glActiveTexture(GL_TEXTURE2);
         glBindTexture(GL_TEXTURE_2D, containerEmissionMapID);
-        */
+        
         glBindVertexArray(VAOs[0]);
         glDrawArrays(GL_TRIANGLES, 0, 36);
         
@@ -382,7 +394,7 @@ int main()
         lightCubeShader.use();
         lightCubeShader.setMat4("view", view);
         lightCubeShader.setMat4("projection", projection);
-        lightCubeShader.setVec3("lightColor", glm::vec3(1.0f));
+        lightCubeShader.setVec3("lightColor", 0.8f, 0.5f, 0.1f);
         for (int i = 0; i < 4; i++)
         {
             glm::mat4 model = glm::mat4(1.0f);
@@ -392,13 +404,10 @@ int main()
 
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
-
+        */
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
-    glDeleteBuffers(1, &VBO);
-    glDeleteVertexArrays(1, VAOs);
-    glDeleteVertexArrays(1, &lightVAO);
 
     glfwTerminate();
     return 0;
