@@ -17,10 +17,6 @@ public:
 	{
 		loadModel(path);
 	};
-	~Model()
-	{
-
-	}
 	void Draw(Shader &shader);
 
 private:

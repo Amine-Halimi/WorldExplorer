@@ -1,3 +1,4 @@
+
 #include "Model.h"
 #include "Mesh.h"
 #include "string"
@@ -20,7 +21,6 @@ void Model::Draw(Shader& shader)
 {
 	for (int i = 0; i < meshes.size(); i++)
 	{
-		std::cout << "drawing Mesh i=" << i << std::endl;
 		meshes[i].draw(shader);
 	}
 }
@@ -28,7 +28,7 @@ void Model::Draw(Shader& shader)
 void Model::loadModel(string path)
 {
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
+	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
@@ -42,15 +42,11 @@ void Model::loadModel(string path)
 
 void Model::processNode(aiNode* node, const aiScene* scene)
 {
-	std::cout << "Entering processNode" << std::endl;
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
-		std::cout << "Entering processing mesh i=" << i << "/" << node->mNumMeshes << std::endl;
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 		meshes.push_back(processMesh(mesh, scene));
-		std::cout << "Leaving processMesh " << std::endl;
 	}
-	std::cout << "Entering processNode loop " << std::endl;
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
 	{
 		processNode(node->mChildren[i], scene);
@@ -66,19 +62,19 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	//Fetches the vertex data
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
-		std::cout << "Entering processing vertex i=" << i << "/" << mesh->mNumVertices << std::endl;
 		Vertex vertex;
 		glm::vec3 tempVector3;
 		tempVector3.x = mesh->mVertices[i].x;
 		tempVector3.y = mesh->mVertices[i].y;
 		tempVector3.z = mesh->mVertices[i].z;
 		vertex.position = tempVector3;
-
-		tempVector3.x = mesh->mNormals[i].x;
-		tempVector3.y = mesh->mNormals[i].y;
-		tempVector3.z = mesh->mNormals[i].z;
-		vertex.normal = tempVector3;
-		
+		if (mesh->HasNormals())
+		{ 
+			tempVector3.x = mesh->mNormals[i].x;
+			tempVector3.y = mesh->mNormals[i].y;
+			tempVector3.z = mesh->mNormals[i].z;
+			vertex.normal = tempVector3;
+		}
 		if (mesh->mTextureCoords[0])
 		{
 			glm::vec2 tempVector2;
@@ -97,7 +93,6 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	//Fetches the indices data
 	for (unsigned int i = 0; i < mesh->mNumFaces; i++)
 	{
-		std::cout << "Entering processing indices i=" << i << "/" << mesh->mNumFaces << std::endl;
 		aiFace face = mesh->mFaces[i];
 		for (unsigned int j = 0; j < face.mNumIndices; j++)
 		{
@@ -108,7 +103,6 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	//Fetches material data
 	if (mesh->mMaterialIndex >= 0)
 	{
-		std::cout << "Entering Material indices" << std::endl;
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 		vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
@@ -116,18 +110,15 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 	}
-	std::cout << "Leaving processMesh " << std::endl;
 	return Mesh(vertices, indices, textures);
 }
 
 //Function
 vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName)
 {
-	std::cout << "Entering loadMaterialTextures for " << typeName << std::endl;
 	vector<Texture> tempTexturesList;
 	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
 	{
-		std::cout << "Entering loadMaterialTextures for " << typeName << " at i=" << i << "/" << mat->GetTextureCount(type) << std::endl;
 		aiString str;
 		mat->GetTexture(type, i, &str);
 		
@@ -154,7 +145,6 @@ vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type,
 		}
 
 	}
-	std::cout << "Leaving loadMaterialTextures for " << typeName << std::endl;
 	return tempTexturesList;
 }
 

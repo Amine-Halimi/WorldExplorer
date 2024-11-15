@@ -1,3 +1,4 @@
+
 #include <glad/glad.h>
 #include <glfw3.h>
 #include "glm.hpp"
@@ -13,24 +14,18 @@ using std::vector;
 */
 Mesh::Mesh(vector<Vertex> inputVertices, vector<unsigned int> inputIndices, vector<Texture> inputTextures)
 {
-	vertices = inputVertices;
-	indices = inputIndices;
-	textures = inputTextures;
+	this->vertices = inputVertices;
+	this->indices = inputIndices;
+	this->textures = inputTextures;
 
 	setupMesh();
 }
-Mesh::~Mesh()
-{
-	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &EBO);
-	glDeleteVertexArrays(1, &VAO);
-}
+
 /*
 *  Draw function to draw the mesh on the screen.
 */
 void Mesh::draw(Shader shader)
 {
-	
 	unsigned int diffuseLayerNum = 1;
 	unsigned int specularLayerNum = 1;
 
@@ -49,8 +44,7 @@ void Mesh::draw(Shader shader)
 		{
 			number = std::to_string(specularLayerNum++);
 		}
-		else
-		{ }
+		
 		string variable = name + number;
 		shader.setInt(variable, i);
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
@@ -63,7 +57,6 @@ void Mesh::draw(Shader shader)
 }
 /* 
 * Set ups VBO, VAO and EBO and defines
-* 
 */
 void Mesh::setupMesh()
 {
@@ -71,7 +64,7 @@ void Mesh::setupMesh()
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);
-
+	glBindVertexArray(VAO);
 	//Loading vertex data into the VBO
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
@@ -81,7 +74,7 @@ void Mesh::setupMesh()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
 
 	//Defining how to read the data to the VBO
-	glBindVertexArray(VAO);
+
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(offsetof(Vertex, normal)));
