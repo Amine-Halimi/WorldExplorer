@@ -3,6 +3,7 @@
 /*
 * This file contains the declaration of the class Mesh and the structs Vertex and Texture.
 * The role of this class is to hold the data loaded and drawing the respective mesh.
+* Implementation from LearnOpenGL website:https://github.com/JoeyDeVries/LearnOpenGL
 */
 #include "glm.hpp"
 #include "string"

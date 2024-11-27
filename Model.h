@@ -6,7 +6,11 @@
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"
-
+/*
+* This file contains the declaration of the class Model
+* The role of this class is to hold the data loaded and drawing the respective mesh.
+* Implementation from LearnOpenGL website:https://github.com/JoeyDeVries/LearnOpenGL
+*/
 
 using std::string;
 using std::vector;

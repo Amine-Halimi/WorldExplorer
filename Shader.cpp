@@ -5,6 +5,7 @@
 #include <sstream>
 #include <iostream>
 /*
+* Shader class declaration
 Implementation from LearnOpenGL website: https://github.com/JoeyDeVries/LearnOpenGL
 */
 Shader::Shader(const char* vertexPath, const char* fragmentPath)

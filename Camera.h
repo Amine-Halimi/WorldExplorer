@@ -11,6 +11,7 @@ enum Camera_Movement {
     RIGHT
 };
 /*
+* Camera class implementation
 Implementation from LearnOpenGL website:https://github.com/JoeyDeVries/LearnOpenGL
 */
 // Default camera values
