@@ -5,7 +5,7 @@
 * The role of this class is to hold the data loaded and drawing the respective mesh.
 * Implementation from LearnOpenGL website:https://github.com/JoeyDeVries/LearnOpenGL
 */
-#include "glm.hpp"
+#include "glm\glm.hpp"
 #include "string"
 #include "vector"
 #include "Shader.h"

@@ -6,8 +6,8 @@
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"
-#include "glm.hpp"
-#include "stb_image.h"
+#include "glm/glm.hpp"
+#include "stb/stb_image.h"
 
 using std::string;
 using std::vector;

@@ -3,17 +3,17 @@ This is a 3D renderer I have written learning the guide of LearnOpenGL
 */
 
 #include <glad/glad.h>
-#include <glfw3.h>
+#include <GLFW/glfw3.h>
 #include "Shader.h"
 #include "iostream"
 #include "Camera.h"
-#include "stb_image.h"
+#include "stb/stb_image.h"
 #include "Model.h"
 
 
-#include "glm.hpp"
-#include "gtc/matrix_transform.hpp"
-#include "gtc/type_ptr.hpp"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
 
 void framebuffer_size_callback(GLFWwindow* window, int witdh, int height);

@@ -7,7 +7,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#include "glm.hpp"
+#include "glm\glm.hpp"
 /*
 Implementation from LearnOpenGL website:https://github.com/JoeyDeVries/LearnOpenGL
 */
