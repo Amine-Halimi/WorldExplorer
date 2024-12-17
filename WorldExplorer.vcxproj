@@ -138,6 +138,13 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="TextureReader.cpp" />
+    <ClCompile Include="Thirdparty\includes\imgui\imgui.cpp" />
+    <ClCompile Include="Thirdparty\includes\imgui\imgui_demo.cpp" />
+    <ClCompile Include="Thirdparty\includes\imgui\imgui_draw.cpp" />
+    <ClCompile Include="Thirdparty\includes\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="Thirdparty\includes\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="Thirdparty\includes\imgui\imgui_tables.cpp" />
+    <ClCompile Include="Thirdparty\includes\imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
