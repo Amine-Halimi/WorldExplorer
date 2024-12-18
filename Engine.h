@@ -15,8 +15,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
-const unsigned int SCR_WIDTH = 1600;
-const unsigned int SCR_HEIGHT = 1200;
+
 class Engine
 {
 
@@ -27,6 +26,17 @@ public:
 	void renderLoop();
 
 private:
+	//Last position of mouse cursor
+	float lastX;
+	float lastY;
+
+	int status{ 0 };
+
+	//Check if it is the first movement of the mouse
+	bool firstMouse{ true };
+	unsigned int scr_width{ 1600 };
+	unsigned int scr_height{ 1200 };
+
 	Camera mainCamera;
 	GLFWwindow* windowApp;
 	GUI userInterface;
@@ -35,9 +45,14 @@ private:
 	float deltaTime { 0.0f };
 	float lastFrame { 0.0f };
 
+	int setUpEngine();
+
+
 	void processInput();
 
-	
+	void mouseMovement(double xpos, double ypos);
+
+	void scrollWheel(double xoffset, double yoffset);
 };
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
