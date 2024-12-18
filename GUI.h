@@ -5,7 +5,7 @@
 
 struct userInterfaceWindowFunction
 {
-	void renderWindow(bool showWindow)
+	virtual void renderWindow(bool showWindow, int objectId)
 	{
 
 	}
@@ -20,7 +20,7 @@ struct userInterfaceWindow
 
 	void renderWindow()
 	{
-		function.renderWindow(showWindow);
+		function.renderWindow(showWindow, objectId);
 	}
 }; 
 class GUI

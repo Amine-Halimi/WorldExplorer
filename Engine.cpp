@@ -1,7 +1,7 @@
 #include "Engine.h"
 
 Engine::Engine()
-{
+{   
     std::cout << "Starting Engine..." << std::endl;
     //Initialize glfw and sets the OpenGL version to use
     glfwInit();
@@ -38,7 +38,7 @@ Engine::Engine()
     stbi_set_flip_vertically_on_load(true);
 
     mainCamera = Camera();
-    userInterface = GUI();
+    //userInterface = GUI();
 }
 
 Engine::~Engine()
@@ -53,8 +53,10 @@ void Engine::renderLoop()
     std::cout << "Starting the rendering..." << std::endl;
 }
 
+/*
 //Function to resize window
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
 }
+*/

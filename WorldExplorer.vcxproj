@@ -134,6 +134,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\Libraries\glad\src\glad.c" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="GUI.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MessengerBox.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="RenderedObject.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="UserInterfaceWindows.h" />
