@@ -29,7 +29,7 @@ public:
 private:
 	Camera mainCamera;
 	GLFWwindow* windowApp;
-	GUI* userInterface;
+	GUI userInterface;
 	std::vector<Scene*> listOfScenes;
 
 	float deltaTime { 0.0f };

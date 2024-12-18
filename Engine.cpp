@@ -38,10 +38,12 @@ Engine::Engine()
     stbi_set_flip_vertically_on_load(true);
 
     mainCamera = Camera();
+    userInterface = GUI();
 }
+
 Engine::~Engine()
 {
-    glfwDestroyWindow(window);
+    glfwDestroyWindow(windowApp);
     glfwTerminate();
 }
 
