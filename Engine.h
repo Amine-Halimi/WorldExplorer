@@ -39,7 +39,7 @@ private:
 
 	Camera mainCamera;
 	GLFWwindow* windowApp;
-	GUI userInterfaceGraphic;
+	GUI* userInterfaceGraphic;
 	std::vector<Scene*> listOfScenes;
 
 	float deltaTime { 0.0f };

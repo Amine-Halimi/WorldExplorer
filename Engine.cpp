@@ -18,6 +18,8 @@ Engine::Engine()
 
 Engine::~Engine()
 {
+    userInterfaceGraphic->shutdown();
+    delete userInterfaceGraphic;
     glfwDestroyWindow(windowApp);
     glfwTerminate();
 }
@@ -58,18 +60,10 @@ int Engine::setUpEngine()
     stbi_set_flip_vertically_on_load(true);
 
     mainCamera = Camera();
-    userInterfaceGraphic = GUI();
+    userInterfaceGraphic = new GUI(windowApp);
     lastX = scr_width / 2.0f;
     lastY = scr_height / 2.0f;
 
-    // Setup Dear ImGui context
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-
-
-    // Setup Platform/Renderer backends
-    ImGui_ImplGlfw_InitForOpenGL(windowApp, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
-    ImGui_ImplOpenGL3_Init("#version 330");
 
     return 0;
 }
@@ -188,11 +182,11 @@ void Engine::renderLoop()
 
             glfwPollEvents();
 
-            userInterfaceGraphic.createNewFrame();
+            userInterfaceGraphic->createNewFrame();
             glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            userInterfaceGraphic.displayWindow(io);
+            userInterfaceGraphic->displayWindow(io);
 
 
             if (!io.WantCaptureMouse)
@@ -273,7 +267,7 @@ void Engine::renderLoop()
 
                 glDrawArrays(GL_TRIANGLES, 0, 36);
             }
-            userInterfaceGraphic.renderGUI();
+            userInterfaceGraphic->renderGUI();
             glfwSwapBuffers(windowApp);
         }
     }

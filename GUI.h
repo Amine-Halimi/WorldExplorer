@@ -6,23 +6,36 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
+/*
+This defines GUI class that wraps around the Imgui fonctionality. It also defines the userInterfaceWindow and userInterfaceWindowFunction structs,
+alongside its children.
 
+*/
+
+/*
+Abstract struct that defines the renderWindow function.
+*/
 struct userInterfaceWindowFunction
 {
 	virtual void renderWindow(bool showWindow, int objectId, ImGuiIO& io)
 	{
 
 	}
-	~userInterfaceWindowFunction()
-	{
 
-	}
 };
+/*
+userInterfaceWindow is the struct that keeps data on the window being displayed.
+
+showWindow: bool: Flag variable that determines if the window is being rendered or not.
+objectId: unsigned int: Variable that holds an id for a rendered object, a scene or the engine for the MessengerBox class. (TO_DO)
+function: userInterfaceWindowFunction*: struct that holds the actual implementation of displaying the window
+innerUserInterfaceWindows: userInterfaceWindow*: pointer to an array of interface windows nested inside an userInterfaceWindow object
+*/
 
 struct userInterfaceWindow
 {
 	bool showWindow;
-	int objectId;
+	unsigned int objectId;
 	
 	userInterfaceWindowFunction* function;
 	userInterfaceWindow* innerUserInterfaceWindows;
@@ -36,14 +49,22 @@ struct userInterfaceWindow
 	userInterfaceWindow()
 	{
 	}
-
+	//TO FIX Causes crash
 	~userInterfaceWindow()
 	{
-
+		/*
+		if (function != NULL)
+			delete function;
+		if (innerUserInterfaceWindows != NULL)
+			delete innerUserInterfaceWindows;
+			*/
 	}
 
 }; 
 
+/*
+* TO_DO: Displays window to view and edit the properties of a renderObject.
+*/
 struct renderObjectComponentWindowFunction : userInterfaceWindowFunction
 {
 	void renderWindow(bool showWindow, int objectId, ImGuiIO& io)
@@ -51,7 +72,9 @@ struct renderObjectComponentWindowFunction : userInterfaceWindowFunction
 
 	}
 };
-
+/*
+* TO_DO: Displays window to view and edit the properties of a Scene.
+*/
 struct sceneSelectorWindowFunction : userInterfaceWindowFunction
 {
 	void renderWindow(bool showWindow, int objectId, ImGuiIO& io)
@@ -59,14 +82,18 @@ struct sceneSelectorWindowFunction : userInterfaceWindowFunction
 
 	}
 };
+/*
+* Test struct to see if the demo window provided by the ImGui dev works properly. See 
+*/
 
 struct demoWindowFunction : userInterfaceWindowFunction
 {
+	bool show_demo_window = true;
+	bool show_another_window = false;
 	void renderWindow(bool showWindow, int objectId, ImGuiIO& io)
 	{
 		std::cout << "Inside demoWindowFunction" << std::endl;
-		bool show_demo_window = true;
-		bool show_another_window = false;
+
 		ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
 		if (showWindow)
@@ -109,8 +136,12 @@ struct demoWindowFunction : userInterfaceWindowFunction
 			}
 		}
 	}
+
 };
 
+/*
+GUI class wraps around the implementation for Im::Gui for World Explorer
+*/
 
 class GUI
 {
@@ -122,7 +153,7 @@ public:
 	void displayWindow(ImGuiIO& io);
 	void createNewFrame();
 	void renderGUI();
-
+	void shutdown();
 private:
 	
 	userInterfaceWindow mainWindow;
