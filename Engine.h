@@ -14,7 +14,14 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
+/*
+This contains the definition for the Engine class. This does the following tasks:
+- Implements the initialization, the use and the shutdown of GLFW.
+- Handles the input process.
+- Sends mouse cursor movement to the Camera class
 
+It holds a Camera object, a vector of Scenes (To be implemented), a GUI object and a GLFWwindow object.
+*/
 
 class Engine
 {
@@ -30,10 +37,12 @@ private:
 	float lastX;
 	float lastY;
 
+	//Defines if GLFW has been successfully initialized or not
 	int status{ 0 };
 
 	//Check if it is the first movement of the mouse
 	bool firstMouse{ true };
+	
 	unsigned int scr_width{ 1600 };
 	unsigned int scr_height{ 1200 };
 
@@ -46,7 +55,6 @@ private:
 	float lastFrame { 0.0f };
 
 	int setUpEngine();
-
 
 	void processInput();
 

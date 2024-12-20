@@ -1,7 +1,16 @@
 #include "Engine.h"
+#include "Camera.h"
+#include "stb/stb_image.h"
+#include "Model.h"
+#include "Scene.h"
+#include "GUI.h"
 
-
-
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
+/*
+Constructor for the Engine class
+*/
 Engine::Engine()
 {   
     std::cout << "Starting Engine..." << std::endl;
@@ -15,7 +24,10 @@ Engine::Engine()
     default: std::cout << "Default case switch\n";
     };
 }
-
+/*
+Destructor for the Engine class.
+TO CONSIDER: Implement a void shutdown function to handle GLFW termination, similar to GUI class
+*/
 Engine::~Engine()
 {
     userInterfaceGraphic->shutdown();
@@ -24,6 +36,9 @@ Engine::~Engine()
     glfwTerminate();
 }
 
+/*
+Helper function to set up GLFW, GLAD and Engine's data fields.
+*/
 int Engine::setUpEngine()
 {
     //Initialize glfw and sets the OpenGL version to use
@@ -67,6 +82,13 @@ int Engine::setUpEngine()
 
     return 0;
 }
+
+/*
+Function that renders the GLFW window and the currently displayed objects
+TO_DO:
+- Implement the Scene and Rendered object classes to hold data
+- 
+*/
 void Engine::renderLoop()
 {
     ImGuiIO& io = ImGui::GetIO();
@@ -168,8 +190,6 @@ void Engine::renderLoop()
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
-
-
 
 
         std::cout << "Starting the rendering..." << std::endl;
@@ -274,9 +294,14 @@ void Engine::renderLoop()
 
     else
     {
-        std::cout << "CANNOT RENDER ENGINE. STATUS OF THE ENGINE IS NEGATIVE" << std::endl;
+        std::cout << "CANNOT RENDER ENGINE. ENGINE IS NOT PROPERLY INITIALIZED." << std::endl;
     }
 }
+
+/*
+Function that processes Keyboard inputs
+TO CONSIDER: Perhaps making this function in its own class rather than in the Engine class directly
+*/
 void Engine::processInput()
 {
     const float cameraSpeed = 2.5f * deltaTime;
@@ -319,7 +344,10 @@ void Engine::processInput()
         glfwSetInputMode(windowApp, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     }
 }
-
+/*
+Function to pass the movement of the cursor to  mainCamera.
+TO CONSIDER: Perhaps redesigning the function since its use 
+*/
 void Engine::mouseMovement(double xpos, double ypos)
 {
     if (firstMouse)
@@ -337,6 +365,10 @@ void Engine::mouseMovement(double xpos, double ypos)
     mainCamera.ProcessMouseMovement(xoffset, yoffset);
 }
 
+/*
+Sends the wheel scroll data to  mainCamera 
+TO CONSIDER: Redesigning this functionality
+*/
 void Engine::scrollWheel(double xoffset, double yoffset)
 {
     mainCamera.ProcessMouseScroll(static_cast<float>(yoffset));
