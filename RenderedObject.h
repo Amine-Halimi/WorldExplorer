@@ -5,7 +5,7 @@
 
 /*
 Class RenderedObject contains the properties of an object to be rendered
-TO_DO Create a struct that holds the properties 
+TO_DO: Write implementation of the class
 */
 class RenderedObject 
 {
