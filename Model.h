@@ -22,13 +22,15 @@ public:
 		loadModel(path);
 	};
 	void Draw(Shader &shader);
+	bool inline isModelLoaded();
 
 private:
+	bool isLoaded{ false };
 	vector<Mesh> meshes;
 	string directory;
 
 	void loadModel(string path);
-	void processNode(aiNode *node, const aiScene *scene);
+	void processNode(aiNode* node, const aiScene* scene);
 	Mesh processMesh(aiMesh* mesh, const aiScene* scene);
 	vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
 };

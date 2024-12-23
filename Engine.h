@@ -14,6 +14,8 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
+
+#include "IdGenerator.h"
 /*
 This contains the definition for the Engine class. This does the following tasks:
 - Implements the initialization, the use and the shutdown of GLFW.
@@ -50,6 +52,7 @@ private:
 	GLFWwindow* windowApp;
 	GUI* userInterfaceGraphic;
 	std::vector<Scene*> listOfScenes;
+	IdGenerator idgenerator;
 
 	float deltaTime { 0.0f };
 	float lastFrame { 0.0f };

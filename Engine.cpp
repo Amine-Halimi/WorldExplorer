@@ -4,7 +4,7 @@
 #include "Model.h"
 #include "Scene.h"
 #include "GUI.h"
-
+#include "RenderedObject.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
@@ -79,7 +79,7 @@ int Engine::setUpEngine()
     lastX = scr_width / 2.0f;
     lastY = scr_height / 2.0f;
 
-
+    IdGenerator idgenerator = IdGenerator();
     return 0;
 }
 
@@ -110,6 +110,7 @@ void Engine::renderLoop()
         Model modelBackpack(path.c_str());
         std::cout << "Done loading the model..." << std::endl;
 
+        RenderedObject renderedObj(&modelBackpack);
 
         float verticesLightCube[] = {
             //Positions              Normal             Textures
@@ -224,13 +225,8 @@ void Engine::renderLoop()
             ourShader.setMat4("projection", projection);
             ourShader.setMat4("view", view);
 
-            // render the loaded model
-            glm::mat4 spaceModel = glm::mat4(1.0f);
-            spaceModel = glm::translate(spaceModel, glm::vec3(0.0f, 0.0f, 0.0f));
-            spaceModel = glm::scale(spaceModel, glm::vec3(1.0f, 1.0f, 1.0f));
-            ourShader.setMat4("model", spaceModel);
-            modelBackpack.Draw(ourShader);
-
+            renderedObj.setTranslationZ(1.5f);
+            renderedObj.renderObject(ourShader);
 
             ourShader.setVec3("viewPos", mainCamera.Position);
             ourShader.setFloat("material.shininess", 64.0f);
@@ -329,12 +325,22 @@ void Engine::processInput()
 
     if (glfwGetMouseButton(windowApp, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
     {
+
         glfwSetInputMode(windowApp, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
         double mouseX;
         double mouseY;
 
-        glfwGetCursorPos(windowApp, &mouseX, &mouseY);
+        if (firstMouse)
+        {
+            mouseX = scr_width/2;
+            mouseY = scr_height/2;
+            firstMouse = false;
+        }
+        else
+        {
+            glfwGetCursorPos(windowApp, &mouseX, &mouseY);
+        }
 
         mouseMovement(mouseX, mouseY);
     }

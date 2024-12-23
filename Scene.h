@@ -16,10 +16,10 @@ public:
 	Scene();
 	~Scene();
 
-	void renderScene();
+	void renderScene(Shader& shader);
 private:
 	int sceneId;
-	std::vector<RenderedObject> objectsToRender;
+	std::vector<RenderedObject*> objectsToRender;
 };
 #endif // !SCENE_H
 

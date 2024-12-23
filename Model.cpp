@@ -25,6 +25,11 @@ void Model::Draw(Shader& shader)
 	}
 }
 
+bool inline Model::isModelLoaded()
+{
+	return isLoaded;
+}
+
 void Model::loadModel(string path)
 {
 	Assimp::Importer importer;
@@ -38,6 +43,8 @@ void Model::loadModel(string path)
 	
 	directory = path.substr(0, path.find_last_of('\\'));
 	processNode(scene->mRootNode, scene);
+
+	isLoaded = true;
 }
 
 void Model::processNode(aiNode* node, const aiScene* scene)

@@ -6,6 +6,37 @@
 * 
 */
 
+class IdGenerator
+{
+public:
+	IdGenerator()
+	{
+
+	};
+	~IdGenerator()
+	{
+
+	};
+
+	const int inline createObjectId()
+	{
+		return objectIdNum++;
+	}
+
+	const int inline createSceneId()
+	{
+		return sceneIdNum++;
+	}
+
+	const int inline createWindowId()
+	{
+		return windowIdNum++;
+	}
+private:
+	int objectIdNum{ 1 };
+	int sceneIdNum{ 1 };
+	int windowIdNum{ 1 };
+};
 
 
 
