@@ -225,7 +225,6 @@ void Engine::renderLoop()
             ourShader.setMat4("projection", projection);
             ourShader.setMat4("view", view);
 
-            renderedObj.setTranslationZ(1.5f);
             renderedObj.renderObject(ourShader);
 
             ourShader.setVec3("viewPos", mainCamera.Position);
@@ -331,23 +330,16 @@ void Engine::processInput()
         double mouseX;
         double mouseY;
 
-        if (firstMouse)
-        {
-            mouseX = scr_width/2;
-            mouseY = scr_height/2;
-            firstMouse = false;
-        }
-        else
-        {
-            glfwGetCursorPos(windowApp, &mouseX, &mouseY);
-        }
 
+        glfwGetCursorPos(windowApp, &mouseX, &mouseY);
+        
         mouseMovement(mouseX, mouseY);
     }
 
     if (glfwGetMouseButton(windowApp, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
     {
         glfwSetInputMode(windowApp, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        firstMouse = true;
     }
 }
 /*
@@ -368,6 +360,7 @@ void Engine::mouseMovement(double xpos, double ypos)
     lastX = static_cast<float>(xpos);
     lastY = static_cast<float>(ypos);
 
+    std::cout << xoffset << ": " << yoffset << std::endl;
     mainCamera.ProcessMouseMovement(xoffset, yoffset);
 }
 

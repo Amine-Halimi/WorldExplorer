@@ -42,7 +42,7 @@ struct userInterfaceWindow
 
 	void renderWindow(ImGuiIO& io)
 	{
-		std::cout << "Inside userInterfaceWindow" << std::endl;
+		//std::cout << "Inside userInterfaceWindow" << std::endl;
 		function->renderWindow(showWindow, objectId, io);
 	}
 
@@ -92,7 +92,7 @@ struct demoWindowFunction : userInterfaceWindowFunction
 	bool show_another_window = false;
 	void renderWindow(bool showWindow, int objectId, ImGuiIO& io)
 	{
-		std::cout << "Inside demoWindowFunction" << std::endl;
+		//std::cout << "Inside demoWindowFunction" << std::endl;
 
 		ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 

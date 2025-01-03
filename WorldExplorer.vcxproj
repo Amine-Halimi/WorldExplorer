@@ -161,6 +161,7 @@
     <ClInclude Include="RenderedObject.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Special_Objects.h" />
     <ClInclude Include="UserInterfaceWindows.h" />
   </ItemGroup>
   <ItemGroup>
