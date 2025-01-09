@@ -5,5 +5,6 @@ This project is meant to showcase my learning journey of OpenGL and computer gra
 The main files that will be modified are Main.cpp and the shader program files.
 
 ## Progress
-Implemented RenderedObject class
+Implemented RenderedObject class.
+
 Started implementation of ImGUI
